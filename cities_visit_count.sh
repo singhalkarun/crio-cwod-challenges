@@ -2,7 +2,7 @@
 
 if test -f formatted_cities.txt; then
   rm formatted_cities.txt
-fi  
+fi
 
 grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b" /var/log/qeats-server.log > access_ips.txt
 
@@ -15,9 +15,9 @@ while IFS= read -r line;do
 
  if [[ $city =~ $regex ]]; then
     formatted_city="${BASH_REMATCH[1]}"
-    
+
     echo $formatted_city >> formatted_cities.txt
   fi
 done < access_ips.txt
 
-sort formatted_cities.txt | uniq -c
+sort formatted_cities.txt | uniq -c | awk '{print$2","$1}'
